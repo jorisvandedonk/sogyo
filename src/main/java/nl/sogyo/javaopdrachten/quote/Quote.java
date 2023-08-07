@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.time.format.DateTimeFormatter;
 
+
 public class Quote {
     public static void main(String[] args) {
         String[][] quotes = {
@@ -24,11 +25,18 @@ public class Quote {
         String formattedDate = currentDate.format(formatter);
 
         String[] quoteOTD = getQuote(quotes, differenceInDays);
-        System.out.println("Quote for " + formattedDate + ": \n\"" + quoteOTD[1] + "\"" + " -- " + quoteOTD[0]); 
+        
+        String formattedQuote = quoteOTD[1].substring(0, 1).toUpperCase() + quoteOTD[1].substring(1) + ".";
+        
+        String formattedName = quoteOTD[0].substring(0, 1).toUpperCase() + quoteOTD[0].substring(1);
+        
+        System.out.println("Quote for " + formattedDate + ": \n\"" + formattedQuote + "\"" + " -- " + formattedName); 
     }
 
     public static String[] getQuote(String[][] quotes, long differenceInDays) {
         int whichQuote = (int) (differenceInDays % 6);
         return quotes[whichQuote];
     }
+  
+
 }

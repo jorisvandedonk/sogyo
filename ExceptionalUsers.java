@@ -21,7 +21,7 @@ public class ExceptionalUsers {
 
 final class User {
     public final String userName;
-    public final String passWord;
+    public final String passWord; 
 
     public User(String u, String p) {
         userName = u;

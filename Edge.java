@@ -6,7 +6,7 @@ public final class Edge {
     private final String destinationNode;
     private final String answer;
     
-    private static List<Edge> edgeList = new ArrayList<>();
+    public static List<Edge> edgeList = new ArrayList<>();
 
     public Edge(String originNode, String destinationNode, String answer) {
         this.originNode = originNode;
@@ -21,9 +21,29 @@ public final class Edge {
 
     public static List<String> getAllDestinationNodes() {
         List<String> destinationNodes = new ArrayList<>();
-        for (int i = 0; i < edgeList.size(); i++) {
-            destinationNodes.add(edgeList.get(i).destinationNode);
+        for (Edge edge : edgeList) {
+            destinationNodes.add(edge.destinationNode);
         }
         return destinationNodes;
+    }
+
+    public static List<String> getAllOriginNodes() {
+        List<String> originNodes = new ArrayList<>();
+        for (Edge edge : edgeList) {
+            originNodes.add(edge.originNode);
+        }
+        return originNodes;
+    }
+
+    public String getDestinationNode() {
+        return destinationNode;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public String getOriginNode() {
+        return originNode;
     }
 }

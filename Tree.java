@@ -17,8 +17,6 @@ public class Tree {
         String currentNode = firstNode;
         Scanner userInput = new Scanner(System.in);
         runTree(nodeNames, destinationNodes, currentNode, userInput);
-
-        
     }
 
     public void setUpTree(String filename) {
@@ -60,23 +58,59 @@ public class Tree {
 
     public static void runTree(List<String> nodeNames, List<String> destinationNodes, String currentNode, Scanner userInput) {
         String currentQuestionOrAnswer = Node.findQuestionOrAnswerByNodeName(currentNode);
-        while (currentQuestionOrAnswer.charAt(currentQuestionOrAnswer.length() - 1) == '?') {
+
+        String jaOfNee;
+
+        while (isNodeQuestion(currentQuestionOrAnswer)) {
             System.out.println("Vraag: " + currentQuestionOrAnswer + "\nAntwoord met Ja of Nee:");
-            String jaOfNee = userInput.nextLine();
-            //while (!validAnswer(jaOfNee)) {
-                
-            //}
 
-}
+            jaOfNee = userInput.nextLine();
 
+            jaOfNee = repeatUntilValidAnswer(jaOfNee, userInput);
+
+            currentNode = findNextNode(jaOfNee, currentNode, Edge.edgeList);
+            currentQuestionOrAnswer = Node.findQuestionOrAnswerByNodeName(currentNode);
+        }
+        finalAnswer(currentQuestionOrAnswer);
     }
 
+    public static boolean isNodeQuestion(String currentQuestionOrAnswer) {
+        if (currentQuestionOrAnswer.charAt(currentQuestionOrAnswer.length() - 1) == '?') {
+            return true;
+        }
+        return false;
+    }
 
+    public static boolean validAnswer(String jaOfNee) {
+        if (jaOfNee.equalsIgnoreCase("Ja") || jaOfNee.equalsIgnoreCase("Nee")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static void invalidAnswer(String jaOfNee) {
+        System.out.println("Ongeldig antwoord! Antwoord met Ja of Nee:");
+    }
+
+    public static String repeatUntilValidAnswer(String jaOfNee, Scanner userInput) {
+        while (!validAnswer(jaOfNee)) {
+            invalidAnswer(jaOfNee);
+            jaOfNee = userInput.nextLine();
+        }
+        return jaOfNee;
+    }
+
+    public static String findNextNode(String jaOfNee, String currentNode, List<Edge> edgeList) {
+        for (int i = 0; i < edgeList.size(); i++) {
+            Edge edge = edgeList.get(i);
+            if (edge.getOriginNode().equals(currentNode) && edge.getAnswer().equalsIgnoreCase(jaOfNee)) {
+                return edge.getDestinationNode();
+            }
+        }
+        return null;
+    }
+
+    public static void finalAnswer(String currentQuestionOrAnswer) {
+        System.out.println("\nHet blad wat je zoekt is van een " + currentQuestionOrAnswer.toLowerCase() + "!");
+    }
 }
-
-// Check of input valide is (bvb Ja of ja, Nee ( input van user standaard converteren naar lower case in de vorige stap)).
-// Check welke Edges de origin node (Edge[0]) bij de vraag bevatten.
-// Check welke destination node bij het gegeven antwoord hoort.
-// Kies nieuwe node om weer te geven, einde loop.
-
-// Wanneer de node geen "?" als laatste karakter heeft, geef antwoord (bvb System.out.println("Het blad wat je zoekt is van een " + Node[1] + "boom!"))
